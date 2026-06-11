@@ -32,6 +32,41 @@ Classical public-key algorithms such as RSA and elliptic-curve cryptography are 
 
 This project does not aim to create new cryptographic algorithms. Instead, it focuses on experimentally evaluating existing algorithms and comparing their practical trade-offs.
 
+## Tech Stack
+
+| Layer | Choice | Purpose |
+| ----- | ------ | ------- |
+| Language | Python 3.11+ | Benchmark scripts, CSV export, and plotting |
+| Classical crypto | [cryptography](https://cryptography.io/) | X25519, ECDH, Ed25519, RSA-PSS |
+| Post-quantum crypto | [liboqs-python](https://github.com/open-quantum-safe/liboqs-python) | ML-KEM, ML-DSA, SLH-DSA via Open Quantum Safe |
+| Timing & statistics | `time.perf_counter()`, `statistics` | High-resolution timing and summary stats |
+| CSV export | stdlib `csv` | Result files matching the project format |
+| Plotting | `matplotlib`, `seaborn` | Runtime and size comparison charts |
+| Environment | `venv`, `requirements.txt` | Reproducible local development setup |
+
+### Library responsibilities
+
+| Module | Libraries |
+| ------ | --------- |
+| `benchmarks/bench_kem.py` | `cryptography` (X25519), `liboqs-python` (ML-KEM-512/768/1024) |
+| `benchmarks/bench_signatures.py` | `cryptography` (Ed25519, RSA-PSS), `liboqs-python` (ML-DSA, SLH-DSA) |
+| `benchmarks/utils.py` | stdlib (`time`, `statistics`, `csv`) |
+
+### Setup
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+# source .venv/bin/activate   # macOS / Linux
+pip install -r requirements.txt
+```
+
+### Optional later additions
+
+* `click` or `argparse` for CLI flags (e.g. `--iterations`)
+* `pytest` for smoke tests
+* `pandas` for richer analysis before plotting
+
 ## Initial Scope
 
 The first version of the project focuses on key exchange and key encapsulation mechanisms.

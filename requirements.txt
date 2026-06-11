@@ -1,0 +1,4 @@
+cryptography>=42.0
+liboqs-python>=0.10
+matplotlib>=3.8
+seaborn>=0.13
